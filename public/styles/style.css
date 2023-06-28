@@ -1,0 +1,30 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  background-color: black;
+}
+
+h1 {
+  margin-top: 50px;
+  color: white;
+  text-align: center;
+}
+
+.ajout {
+  margin-top: 50px;
+}
+.ajout #date,
+.ajout #heure {
+  width: 150px;
+}
+
+.bobor {
+  border: solid 1px red;
+}/*# sourceMappingURL=style.css.map */
