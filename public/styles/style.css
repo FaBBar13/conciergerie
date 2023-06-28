@@ -11,6 +11,10 @@ body {
   background-color: black;
 }
 
+b {
+  color: white;
+}
+
 h1 {
   margin-top: 50px;
   color: white;
@@ -20,9 +24,11 @@ h1 {
 .ajout {
   margin-top: 50px;
 }
-.ajout #date,
-.ajout #heure {
+.ajout #date {
   width: 150px;
+}
+.ajout #heure {
+  width: 70px;
 }
 
 .bobor {

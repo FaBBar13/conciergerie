@@ -16,18 +16,18 @@
         <!-- foreach -->
         <?php
 
-        while (!feof($source)) {
-            //echo var_dump($source);
-            $date = fread($source, $taille_1);
-            $heure = fread($source, $taille_2);
-            $tache = fread($source, $taille_3);
-            $statut = fread($source, $taille_4);
-            $retour_chariot = fread($source, 1); //La fin d'une ligne est marquée par 1 octet de retour chariot
-            echo "<tr><td>$date</td><td>$heure</td><td>$tache</td><td>$statut</td></tr>";
-        }
-        ;
-        fclose($source);
-
+        // while (!feof($source)) {
+        //     //echo var_dump($source);
+        //     $date = fread($source, $taille_1);
+        //     $heure = fread($source, $taille_2);
+        //     $tache = fread($source, $taille_3);
+        //     $statut = fread($source, $taille_4);
+        //     $retour_chariot = fread($source, 1); //La fin d'une ligne est marquée par 1 octet de retour chariot
+        //     echo "<tr><td>$date</td><td>$heure</td><td>$tache</td><td>$statut</td></tr>";
+        // }
+        // ;
+        // fclose($source);
+        
         ?>
 
     </table>
@@ -57,6 +57,7 @@
     $heure_sai = $_POST['heure'];
     $action_sai = $_POST['action'];
 
+    ajoutTache($date_sai, $heure_sai, $action_sai);
 
     ?>
 
