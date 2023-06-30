@@ -32,5 +32,9 @@ h1 {
 }
 
 .bobor {
-  border: solid 1px red;
+  border: solid 5px red;
+}
+
+.boboy {
+  border: solid 2px yellow;
 }/*# sourceMappingURL=style.css.map */
