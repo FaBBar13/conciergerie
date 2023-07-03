@@ -1,6 +1,6 @@
 <?php
 // Aymeric : stocke le html ds un buffer et à la fin du code , mettre ob_flush() pour la chasse d'eau du buffer vers la page
-// permet d'utilise header(location)
+// permet d'utilise header(location) librement
 ob_start();
 
 include __DIR__ . '/header.php'; ?>
@@ -27,28 +27,37 @@ include __DIR__ . '/header.php'; ?>
         echo "<br>";
 
         $input_data = [];
+
+        $date_mod = "";
+        $heure_mod = "";
+        $action_mod = "";
+
         function majFichier()
         {
+
             global $liste;
+            asort($liste);
+            array_multisort($liste[1], SORT_ASC, SORT_STRING,
+                            $liste[2], SORT_ASC, SORT_STRING
+            );
+            $liste = array_values($liste);
+                 
+            $newcontent = "";
             for ($i = 0; $i < count($liste); $i++) {
                 $lg = $liste[$i];
                 $newcontent .= $lg['check'] . '%' . $lg['date'] . '%' . $lg['heure'] . '%' . $lg['statut'] . '%' . $lg['tache'] . "\n";
             }
 
             file_put_contents('../data/info.txt', $newcontent);
-            header("Location: ./");
+            header("Location: ./index.php");
             exit;
         }
         //var_dump($liste);
         foreach ($liste as $line => $entry):
-            //var_dump($entry);
-            //echo "<tr><td><input type='checkbox' " . (!!$entry['check'] ? 'checked' : '') . "></td><td>{$entry['date']}</td><td>{$entry['heure']}</td><td>{$entry['statut']}</td><td>{$entry['tache']}</td></tr>";
-        
-
             // ajouter test sur ligne 0 avec isset et non empty
             // + voir PHP_EOL et ranger le tableau modifié avec $contenu = array_values($contenu);
         
-
+            
             $chaine_btn = "<form method='post' class='boboy'>
             <input type='hidden' name='line' value='{$line}'>
             <button name='action' type='submit' value='mod' class='btn btn-warning bouton'>Modif.</button>
@@ -80,17 +89,30 @@ include __DIR__ . '/header.php'; ?>
 
     if (!empty($_POST['action'])) {
 
-        //var_dump($_POST['action']);
+        $numlig = $_POST['line'];
         switch ($_POST['action']) {
             case "edit":
                 echo "ajout tache";
+                //var_dump($input_data);
                 break;
             case "mod":
-                echo "modif. tache ";
+                echo "modif. tache <br> ";
+                
+                echo $numlig;
+                echo "<br>";
+                $input_data[] = [
+                        'line' =>   $numlig,
+                        'date' =>   $liste[$numlig]['date'],
+                        'heure' =>  $liste[$numlig]['heure'],
+                        'statut' => $liste[$numlig]['statut'],
+                        'tache' =>  $liste[$numlig]['tache']
+                ];
+                //echo($input_data['tache'][0]);
+                //echo "<br>";
+                //var_dump($input_data);
                 break;
             case "sup":
-                //echo ($_POST['line']);
-                Suppr($_POST['line']);
+                Suppr($numlig);
                 break;
             default:
                 echo "bizarre...";
@@ -107,13 +129,13 @@ include __DIR__ . '/header.php'; ?>
             <div class="form-group">
                 <input type="date" placeholder="Date" id="date" name="date" maxlength="8" class="form-control"
                     value="<?= $input_data['date'] ?? '' ?>"></input><br />
-                <!-- <label for="time"> et l'horloge ???</label> -->
+                
                 <input type="time" id="heure" name="time" value="<?= $input_data['heure'] ?? '' ?>"
                     class="form-control"></input><br />
-                <input type="text" placeholder="Action..." id="action" name="action" maxlength="20"
-                    value="<?= $input_data['tache'] ?? '' ?>" class="form-control"></input><br />
-                <?php if (!empty($input_data)) { ?>
-                    <input type="hidden" name="line" value="<?= $input_data['line'] ?>">
+                <input type="text" placeholder="Tache..." id="tache" name="tache" maxlength="20"
+                    value="<?=  $input_data['tache'] ?? '' ?>" class="form-control"></input><br />
+                <?php if (!empty($input_data)) { ?>                 
+                    <input type="hidden"  name="line" value="<?= $input_data['line'] ?? '' ?>">
                     <button class="btn btn-primary" type="submit" name="action" value="edit">Modifier</button>
 
                 <?php } else { ?>
@@ -128,27 +150,18 @@ include __DIR__ . '/header.php'; ?>
     <?php
 
     // echo ($_POST['date'] . ' ' . $_POST['heure'] . ' ' . $_POST['action']);
-    if (!empty($_POST['date']) && !empty($_POST['time']) && !empty($_POST['action'])) {
+    if (!empty($_POST['date']) && !empty($_POST['time']) && !empty($_POST['tache'])) {
 
         $date_sai = $_POST['date'];
         $heure_sai = $_POST['time'];
-        $action_sai = $_POST['action'];
-        // echo ('VALIDATION');
-        // echo "<br>";
-        $newcontent = "";
-        $liste[] = ['check' => 0, 'date' => $date_sai, 'heure' => $heure_sai, 'statut' => '1', 'tache' => $action_sai];
-        //var_dump($liste);
-        echo "<br>";
+        $tache_sai = str_replace("%"," ",strip_tags($_POST['tache']));
+        //$newcontent = "";
+
+        $liste[] = ['check' => '0', 'date' => $date_sai, 'heure' => $heure_sai, 'statut' => '1', 'tache' => $tache_sai];
 
         majFichier();
-        // for ($i = 0; $i < count($liste); $i++) {
-        //     $lg = $liste[$i];
-        //     $newcontent .= $lg['check'] . '%' . $lg['date'] . '%' . $lg['heure'] . '%' . $lg['statut'] . '%' . $lg['tache'] . "\n";
-        // }
-    
-        // file_put_contents('../data/info.txt', $newcontent);
-        // header("Location: ./");
-        // exit;
+    } else {
+        echo('MANQUE INFOS');
     }
 
 
