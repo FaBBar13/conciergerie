@@ -6,25 +6,27 @@ $username = 'root';
 
 //On essaye la connexion
 
+$id_tache = '';
+$date_tache = '';
+$heure_tache = '';
+$statut = '';
+$tache = '';
+
 try {
     $conn = new PDO("mysql:host=$servername;dbname=test_fab", $username);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "connnecté OK";
 
-    $req = $conn->prepare("SELECT id_tache, date_tache, heure, statut, tache FROM taches ORDER BY 1,2,3 ");
+    $req = $conn->prepare("SELECT id_tache, DATE_FORMAT(date_tache,'%d/%m/%Y') date_tache, DATE_FORMAT(heure_tache,'%H:%i') heure_tache, statut, tache FROM taches ORDER BY 1,2,3 ");
     $req->execute();
 
-    $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
-    print_r($resultat);
-
-
-
+    $liste_taches = $req->fetchAll(PDO::FETCH_ASSOC);
+    print_r($liste_taches);
 
 }
-/* prepa requete */
 
-
-/* en cas d'erreur de connexion */catch (PDOException $e) {
+/* en cas d'erreur de connexion */
+catch (PDOException $e) {
     echo "Horreur : " . $e->getMessage();
 }
 

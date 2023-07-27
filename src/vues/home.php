@@ -18,15 +18,51 @@ include __DIR__ . '/header.php'; ?>
                 <th> Action à réaliser </th>
             </tr>
         </thead>
+        <!-- afficher la liste -->
+
+        <?php 
+        echo "<br>";
+        echo ('nb lignes= ' . count($liste_taches));
+
+        foreach ($liste_taches as $entry):
+            
+            $chaine_btn = "<form method='post' class='boboy'>
+            <input  type='hidden' name='line' value='{$id_tache}'>
+            <button name='action' type='submit' value='mod' class='btn btn-warning bouton'>Modif.</button>
+            <button name='action' type='submit' value='sup' class='btn btn-danger bouton'>Suppr</button>
+                </form>";
+
+            echo "<tr><td>" . $chaine_btn . "</td><td>{$entry['date_tache']}</td><td>{$entry['heure_tache']}</td><td>{$entry['statut']}</td><td>{$entry['tache']}</td></tr>";
+
+        endforeach;
+        echo ($id_tache);
+        ?>
 
     </table>
 
 
     <?php
 
+if (!empty($_POST['action'])) {
 
-
-
+//    $numlig = $_POST['line'];
+    switch ($_POST['action']) {
+        case "add":
+            echo "ajout tache";
+            
+            break;
+        case "mod":
+            echo "modif. tache". $_POST['$id_tache'] . "<br> ";
+            
+            break;
+        case "sup":
+            //Suppr($numlig);
+            echo "suppr. tache". $id_tache . "<br> ";
+            break;
+        default:
+            echo "bizarre...";
+    }
+}
 
 
 
@@ -37,21 +73,10 @@ include __DIR__ . '/header.php'; ?>
         <form method="POST">
 
             <div class="form-group">
-                <input type="date" placeholder="Date" id="date" name="date" maxlength="8" class="form-control"
-                    value="<?= $input_data['date'] ?? '' ?>"></input><br />
-
-                <input type="time" id="heure" name="time" value="<?= $input_data['heure'] ?? '' ?>"
-                    class="form-control"></input><br />
-                <input type="text" placeholder="Tache..." id="tache" name="tache" maxlength="30"
-                    value="<?= $input_data['tache'] ?? '' ?>" class="form-control"></input><br />
-                <?php if (!empty($input_data)) { ?>
-                    <input type="hidden" name="line" value="<?= $input_data['line'] ?? '' ?>">
-                    <button class="btn btn-primary" type="submit" name="action" value="edit">Modifier</button>
-
-                <?php } else { ?>
-                    <button class="btn btn-success" type="submit" name="action" value="add">Valider</button>
-                <?php } ?>
-
+                <input type="date" placeholder="Date" id="date" name="date" maxlength="8" class="form-control"></input><br />
+                <input type="time" id="heure" name="time" class="form-control"></input><br />
+                <input type="text" placeholder="Tache..." id="tache" name="tache" maxlength="30" class="form-control"></input><br />
+                <button class="btn btn-success" type="submit" name="action" value="add">Valider</button>
             </div>
 
 
