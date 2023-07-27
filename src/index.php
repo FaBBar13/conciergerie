@@ -1,36 +1,37 @@
 <?php
 
+$servername = 'localhost';
+$username = 'root';
+// $password = 'root';
 
-$title = 'mon titre de malade';
+//On essaye la connexion
 
-$info = "vide";
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=test_fab", $username);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "connnecté OK";
+
+    $req = $conn->prepare("SELECT id_tache, date_tache, heure, statut, tache FROM taches ORDER BY 1,2,3 ");
+    $req->execute();
+
+    $resultat = $req->fetchAll(PDO::FETCH_ASSOC);
+    print_r($resultat);
 
 
 
-$liste = [];
 
-$source = file_get_contents('../data/info.txt');
+}
+/* prepa requete */
 
-// var_dump($source);
-// echo ("<br>");
-$lignes = explode("\n", $source);
-// var_dump($ligne);
-// echo ("<br>");
 
-for ($z = 0; $z < count($lignes) - 1; $z++) {
-    if (empty($lignes[$z])) {
-        continue;
-    }
-    $detail = explode("%", $lignes[$z]);
-    $liste[] = [
-        'check' => $detail[0],
-        'date' => $detail[1],
-        'heure' => $detail[2],
-        'statut' => $detail[3],
-        'tache' => $detail[4]
-    ];
+/* en cas d'erreur de connexion */catch (PDOException $e) {
+    echo "Horreur : " . $e->getMessage();
 }
 
+
+
+// par la suite , pour fermer la connexion :
+// $conn = null;
 
 
 include __DIR__ . '/vues/home.php';
