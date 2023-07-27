@@ -30,6 +30,9 @@ h1 {
 .ajout #heure {
   width: 100px;
 }
+.ajout #tache {
+  width: 600px;
+}
 
 .bobor {
   border: solid 5px red;

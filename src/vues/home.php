@@ -43,29 +43,6 @@ include __DIR__ . '/header.php'; ?>
 
     <?php
 
-if (!empty($_POST['action'])) {
-
-//    $numlig = $_POST['line'];
-    switch ($_POST['action']) {
-        case "add":
-            echo "ajout tache";
-            
-            break;
-        case "mod":
-            echo "modif. tache". $_POST['$id_tache'] . "<br> ";
-            
-            break;
-        case "sup":
-            //Suppr($numlig);
-            echo "suppr. tache". $id_tache . "<br> ";
-            break;
-        default:
-            echo "bizarre...";
-    }
-}
-
-
-
     ?>
 
     <div class="ajout">
@@ -84,8 +61,38 @@ if (!empty($_POST['action'])) {
     </div>
     <?php
 
-    // echo ($_POST['date'] . ' ' . $_POST['heure'] . ' ' . $_POST['action']);
-    
+    if (!empty($_POST['date']) && !empty($_POST['time']) && !empty($_POST['tache'])) {
+
+        if (!empty($_POST['action'])) {
+
+            //    $numlig = $_POST['line'];
+                switch ($_POST['action']) {
+                    case "add":
+                        echo "ajout tache";
+                        $req_new = "INSERT INTO taches VALUES (";
+                        break;
+                    case "mod":
+                        echo "modif. tache". $_POST['$id_tache'] . "<br> ";
+                        $req_new = "UPDATE taches SET (";
+                        break;
+                    case "sup":
+                        //Suppr($numlig);
+                        echo "suppr. tache". $id_tache . " ??????<br> ";
+                        $req_new = "DELETE FROM taches WHERE ";
+                        break;
+                    default:
+                        echo "bizarre...";
+                }
+            }
+            
+
+
+
+        
+    } else {
+        echo('MANQUE INFOS');
+    }
+
 
     ?>
 

@@ -12,6 +12,8 @@ $heure_tache = '';
 $statut = '';
 $tache = '';
 
+$req_new = '';
+
 try {
     $conn = new PDO("mysql:host=$servername;dbname=test_fab", $username);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
