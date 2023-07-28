@@ -50,18 +50,10 @@ include __DIR__ . '/header.php'; ?>
     $formdata = [];
     if (!empty($_POST['action'])) {
 
-
-
-
-
-
         switch ($_POST['action']) {
             case "add":
                 //echo "ajout tache";
                 if (!empty($_POST['date']) && !empty($_POST['time']) && !empty($_POST['tache'])) {
-
-
-
 
                     $req_new = $conn->prepare("
                     INSERT INTO taches (date_tache,heure_tache,statut,tache) " .
